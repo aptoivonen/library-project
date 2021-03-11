@@ -23,6 +23,14 @@ function addBookToLibrary(book) {
   myLibrary.push(book);
 }
 
+function removeBookFromLibrary(index) {
+  myLibrary.splice(index, 1);
+}
+
+function setReadStatus(index, read) {
+  myLibrary[index].read = read;
+}
+
 // UI Stuff
 const newBookButton = document.getElementById("new-book-button");
 newBookButton.addEventListener("click", handleNewBookClick);
@@ -33,8 +41,10 @@ createButton.addEventListener("click", handleCreateClick);
 const cancelButton = document.getElementById("cancel-button");
 cancelButton.addEventListener("click", handleCancelClick);
 const bookTable = document.getElementById("book-table");
+bookTable.addEventListener("click", handleDeleteClick);
+bookTable.addEventListener("click", handleReadClick);
 
-function handleNewBookClick(e) {
+function handleNewBookClick() {
   formOverlay.classList.remove("hide");
 }
 
@@ -50,6 +60,23 @@ function handleCancelClick() {
   formOverlay.classList.add("hide");
 }
 
+function handleDeleteClick(e) {
+  if (e.target.classList.contains("delete-button")) {
+    const index = parseInt(e.target.dataset.id, 10);
+    removeBookFromLibrary(index);
+    UpdateBookTable(bookTable);
+  }
+}
+
+function handleReadClick(e) {
+  if (e.target.classList.contains("read-checkbox")) {
+    const index = parseInt(e.target.dataset.id, 10);
+    const read = !!e.target.checked;
+    setReadStatus(index, read);
+    UpdateBookTable(bookTable);
+  }
+}
+
 function makeBookFromFormData(formData) {
   const title = formData.get("title");
   const author = formData.get("author");
@@ -62,12 +89,16 @@ function makeBookFromFormData(formData) {
 function UpdateBookTable(bookTable) {
   const html = myLibrary
     .map(
-      (book) =>
+      (book, index) =>
         `<tr>
       <td>${book.title}</td>
       <td>${book.author}</td>
       <td>${!(book.pages == null) ? book.pages : ""}</td>
-      <td>${book.read ? "&#10003;" : ""}</td>
+      <td><input class="read-checkbox" type="checkbox" 
+            data-id="${index}" 
+            ${book.read ? "checked" : ""}>
+      </td>
+      <td><button class="btn delete-button" type="button" data-id="${index}">Delete</button></td>
     </tr>`
     )
     .join("");
