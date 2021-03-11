@@ -34,51 +34,30 @@ h1 {
   margin: 0 auto;
 }
 
-.book-form {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
-  background: #f0f0f0;
-}
-
-.book-form h2 {
-  margin-top: 0;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 0.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.1rem;
-}
-
-.form-group input[type="text"] {
-  width: 100%;
-  padding: 0.25rem;
-}
-
-.form-group input[type="number"] {
-  width: 8ch;
-}
-
-.create-button {
+/* Buttons */
+.btn {
   padding: 0.3rem 0.5rem;
   font-family: inherit;
-  background: #43f0c9;
   border: 1px solid rgba(0, 0, 0, 0.2);
   outline: 0;
 }
 
-.create-button:active {
+.btn:active {
   background: #c6f2e8;
 }
 
-.create-button:focus {
+.btn:focus {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+}
+
+.new-book-button {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  background: #43f0c9;
+}
+
+.create-button {
+  background: #43f0c9;
 }
 
 .book-table {
@@ -109,4 +88,55 @@ h1 {
 
 .book-table tr:nth-child(even) {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Overlay form */
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.hide {
+  display: none;
+}
+
+.book-form {
+  width: 300px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  background: #f0f0f0;
+}
+
+.book-form h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 0.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.1rem;
+}
+
+.form-group input[type="text"] {
+  width: 100%;
+  padding: 0.25rem;
+}
+
+.form-group input[type="number"] {
+  width: 8ch;
 }

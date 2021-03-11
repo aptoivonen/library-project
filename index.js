@@ -24,19 +24,33 @@ function addBookToLibrary(book) {
 }
 
 // UI Stuff
+const newBookButton = document.getElementById("new-book-button");
+newBookButton.addEventListener("click", handleNewBookClick);
+const formOverlay = document.getElementById("form-overlay");
 const form = document.getElementById("book-form");
-const button = document.getElementById("create-button");
-button.addEventListener("click", handleClick);
+const createButton = document.getElementById("create-button");
+createButton.addEventListener("click", handleCreateClick);
+const cancelButton = document.getElementById("cancel-button");
+cancelButton.addEventListener("click", handleCancelClick);
 const bookTable = document.getElementById("book-table");
 
-function handleClick(e) {
-  e.preventDefault();
-  console.log("clicked");
-  makeBookFromFormData(new FormData(form), myLibrary);
-  UpdateBookTable(myLibrary, bookTable);
+function handleNewBookClick(e) {
+  formOverlay.classList.remove("hide");
 }
 
-function makeBookFromFormData(formData, myLibrary) {
+function handleCreateClick(e) {
+  e.preventDefault();
+  formOverlay.classList.add("hide");
+  makeBookFromFormData(new FormData(form));
+  UpdateBookTable(bookTable);
+}
+
+function handleCancelClick() {
+  form.reset();
+  formOverlay.classList.add("hide");
+}
+
+function makeBookFromFormData(formData) {
   const title = formData.get("title");
   const author = formData.get("author");
   const pagesInt = Number.parseInt(formData.get("pages"), 10);
@@ -45,7 +59,7 @@ function makeBookFromFormData(formData, myLibrary) {
   addBookToLibrary(new Book(title, author, pages, read));
 }
 
-function UpdateBookTable(myLibrary, bookTable) {
+function UpdateBookTable(bookTable) {
   const html = myLibrary
     .map(
       (book) =>
@@ -60,4 +74,4 @@ function UpdateBookTable(myLibrary, bookTable) {
   bookTable.tBodies[0].innerHTML = html;
 }
 
-UpdateBookTable(myLibrary, bookTable);
+UpdateBookTable(bookTable);
