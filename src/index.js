@@ -79,43 +79,7 @@ function UpdateBookTable(bookTable) {
   bookTable.tBodies[0].innerHTML = html;
 }
 
-function storageAvailable(type) {
-  var storage;
-  try {
-    storage = window[type];
-    var x = "__storage_test__";
-    storage.setItem(x, x);
-    storage.removeItem(x);
-    return true;
-  } catch (e) {
-    return (
-      e instanceof DOMException &&
-      // everything except Firefox
-      (e.code === 22 ||
-        // Firefox
-        e.code === 1014 ||
-        // test name field too, because code might not be present
-        // everything except Firefox
-        e.name === "QuotaExceededError" ||
-        // Firefox
-        e.name === "NS_ERROR_DOM_QUOTA_REACHED") &&
-      // acknowledge QuotaExceededError only if there's something already stored
-      storage &&
-      storage.length !== 0
-    );
-  }
-}
-
 function init() {
-  // if (storageAvailable("localStorage")) {
-  //   if (!localStorage.getItem("myLibrary")) {
-  //     localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
-  //   } else {
-  //     myLibrary.length = 0;
-  //     const storageLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-  //     storageLibrary.forEach((el) => myLibrary.push(el));
-  //   }
-  // }
   UpdateBookTable(bookTable);
 }
 
