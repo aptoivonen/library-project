@@ -1,0 +1,33 @@
+.book-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  background: #f0f0f0;
+
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  th {
+    text-align: left;
+  }
+
+  th:nth-child(3) {
+    width: 6ch;
+  }
+
+  th:nth-child(4) {
+    width: 4ch;
+  }
+
+  th:nth-child(5) {
+    width: 8ch;
+  }
+
+  tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
