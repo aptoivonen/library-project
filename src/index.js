@@ -1,36 +1,7 @@
 import "./scss/style.scss";
+import Library from "./js/library";
 
-// const myLibrary = [];
-const myLibrary = [
-  new Book("The Lord of the Rings", "J.R.R. Tolkien", 1000, false),
-  new Book("JS for Impatient Programmers", "Axel Rauschmayer", 200, true),
-  new Book("Javascript Allongé Six", "Reg Braithwaite", 400, false),
-];
-
-function Book(title, author, pages, read) {
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-}
-
-Book.prototype.info = function () {
-  return `${this.title} by ${this.author}, ${this.pages}, ${
-    this.read ? "read" : "not read yet"
-  }`;
-};
-
-function addBookToLibrary(book) {
-  myLibrary.push(book);
-}
-
-function removeBookFromLibrary(index) {
-  myLibrary.splice(index, 1);
-}
-
-function setReadStatus(index, read) {
-  myLibrary[index].read = read;
-}
+const library = new Library();
 
 // UI Stuff
 const newBookButton = document.getElementById("new-book-button");
@@ -52,7 +23,8 @@ function handleNewBookClick() {
 function handleCreateClick(e) {
   e.preventDefault();
   formOverlay.classList.add("hide");
-  makeBookFromFormData(new FormData(form));
+  const newBookData = getBookData(new FormData(form));
+  library.addBook(newBookData);
   UpdateBookTable(bookTable);
 }
 
@@ -64,7 +36,7 @@ function handleCancelClick() {
 function handleDeleteClick(e) {
   if (e.target.classList.contains("delete-button")) {
     const index = parseInt(e.target.dataset.id, 10);
-    removeBookFromLibrary(index);
+    library.removeBook(index);
     UpdateBookTable(bookTable);
   }
 }
@@ -73,22 +45,23 @@ function handleReadClick(e) {
   if (e.target.classList.contains("read-checkbox")) {
     const index = parseInt(e.target.dataset.id, 10);
     const read = !!e.target.checked;
-    setReadStatus(index, read);
+    library.setBookReadStatus(index, read);
     UpdateBookTable(bookTable);
   }
 }
 
-function makeBookFromFormData(formData) {
+function getBookData(formData) {
   const title = formData.get("title");
   const author = formData.get("author");
   const pagesInt = Number.parseInt(formData.get("pages"), 10);
   const pages = !Number.isNaN(pagesInt) ? pagesInt : undefined;
   const read = !!formData.get("read");
-  addBookToLibrary(new Book(title, author, pages, read));
+  return { title, author, pages, read };
 }
 
 function UpdateBookTable(bookTable) {
-  const html = myLibrary
+  const html = library
+    .getBooks()
     .map(
       (book, index) =>
         `<tr>
@@ -134,15 +107,15 @@ function storageAvailable(type) {
 }
 
 function init() {
-  if (storageAvailable("localStorage")) {
-    if (!localStorage.getItem("myLibrary")) {
-      localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
-    } else {
-      myLibrary.length = 0;
-      const storageLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-      storageLibrary.forEach((el) => myLibrary.push(el));
-    }
-  }
+  // if (storageAvailable("localStorage")) {
+  //   if (!localStorage.getItem("myLibrary")) {
+  //     localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
+  //   } else {
+  //     myLibrary.length = 0;
+  //     const storageLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+  //     storageLibrary.forEach((el) => myLibrary.push(el));
+  //   }
+  // }
   UpdateBookTable(bookTable);
 }
 
