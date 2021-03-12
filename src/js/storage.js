@@ -1,3 +1,5 @@
+import Book from "./book";
+
 const NAME = "library";
 
 function storageAvailable(type) {
@@ -30,11 +32,28 @@ function storageAvailable(type) {
 function getLibrary() {
   const item = localStorage.getItem(NAME);
   if (!item) return [];
-  return JSON.parse(item);
+  return JSON.parse(item, reviver);
 }
 
 function setLibrary(libraryArray) {
-  localStorage.setItem(NAME, JSON.stringify(libraryArray));
+  localStorage.setItem(NAME, JSON.stringify(libraryArray, replacer));
+}
+
+function reviver(key, value) {
+  if (value && value.__type__ === "Book") {
+    return new Book(value.title, value.author, value.pages, value.read);
+  }
+  return value;
+}
+
+function replacer(key, value) {
+  if (value instanceof Book) {
+    return {
+      __type__: "Book",
+      ...value,
+    };
+  }
+  return value;
 }
 
 export { storageAvailable, getLibrary, setLibrary };
