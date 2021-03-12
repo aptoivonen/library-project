@@ -1,3 +1,5 @@
+import "./scss/style.scss";
+
 // const myLibrary = [];
 const myLibrary = [
   new Book("The Lord of the Rings", "J.R.R. Tolkien", 1000, false),
