@@ -33,7 +33,7 @@ class UI {
   handleCreateClick(e) {
     e.preventDefault();
     this.formOverlay.classList.add("hide");
-    const newBookData = getBookData(new FormData(form));
+    const newBookData = getBookData(new FormData(this.form));
     this.library.addBook(newBookData);
     this.updateBookTable();
 
