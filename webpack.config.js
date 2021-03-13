@@ -3,14 +3,15 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-const mode =
-  process.env.NODE_ENV === "production" ? "production" : "development";
+const isProduction = process.env.NODE_ENV === "production";
 
 module.exports = {
-  mode: mode,
+  mode: isProduction ? "production" : "development",
 
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: isProduction
+      ? path.resolve(__dirname, "docs")
+      : path.resolve(__dirname, "dist"),
   },
 
   module: {
@@ -45,8 +46,7 @@ module.exports = {
     }),
   ],
 
-  devtool:
-    process.env.NODE_ENV === "production" ? "source-map" : "inline-source-map",
+  devtool: isProduction ? "source-map" : "inline-source-map",
 
   devServer: {
     contentBase: "./dist",
