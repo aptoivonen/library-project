@@ -10,8 +10,8 @@ module.exports = {
 
   output: {
     path: isProduction
-      ? path.resolve(__dirname, "docs")
-      : path.resolve(__dirname, "dist"),
+      ? path.resolve(__dirname, "dist")
+      : path.resolve(__dirname, "dev"),
   },
 
   module: {
@@ -49,7 +49,7 @@ module.exports = {
   devtool: isProduction ? "source-map" : "inline-source-map",
 
   devServer: {
-    contentBase: "./dist",
+    contentBase: "./dev",
     hot: true,
   },
 };
