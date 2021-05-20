@@ -9,11 +9,7 @@ class UI {
     );
     this.formOverlay = document.getElementById("form-overlay");
     this.form = document.getElementById("book-form");
-    this.createButton = document.getElementById("create-button");
-    this.createButton.addEventListener(
-      "click",
-      this.handleCreateClick.bind(this)
-    );
+    this.form.addEventListener("submit", this.handleCreateClick.bind(this));
     this.cancelButton = document.getElementById("cancel-button");
     this.cancelButton.addEventListener(
       "click",
@@ -32,6 +28,7 @@ class UI {
 
   handleCreateClick(e) {
     e.preventDefault();
+
     this.formOverlay.classList.add("hide");
     const newBookData = getBookData(new FormData(this.form));
     this.library.addBook(newBookData);
