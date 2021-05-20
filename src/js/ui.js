@@ -33,6 +33,7 @@ class UI {
     const newBookData = getBookData(new FormData(this.form));
     this.library.addBook(newBookData);
     this.updateBookTable();
+    this.form.reset();
 
     function getBookData(formData) {
       const title = formData.get("title");
